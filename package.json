@@ -1,12 +1,20 @@
 {
   "name": "expo-native-asset",
+  "description": "Bundle images to the native iOS asset catalog",
   "version": "0.0.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "build",
+    "src",
+    "README.md",
+    "package.json",
+    "app.plugin.js"
+  ],
   "license": "MIT",
   "sideEffects": false,
   "repository": "https://github.com/marathontvapp/expo-native-asset.git",
-  "homepage": "https://github.com/marathontvapp/expo-native-asset#README.md",
+  "homepage": "https://github.com/marathontvapp/expo-native-asset#readme",
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",

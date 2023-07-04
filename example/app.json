@@ -34,6 +34,10 @@
             {
               "type": "imageset",
               "path": "./assets/images/chevron-left.png"
+            },
+            {
+              "type": "imageset",
+              "path": "./assets/images/chevron-right.png"
             }
           ]
         }

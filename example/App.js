@@ -8,6 +8,8 @@ export default function App() {
 
       <Image source={{ uri: "chevron-left", width: 20, height: 20 }} />
 
+      <Image source={{ uri: "chevron-right", width: 20, height: 20 }} />
+
       <StatusBar style="auto" />
     </View>
   );

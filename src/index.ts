@@ -3,13 +3,8 @@ import fs from "fs/promises";
 import {
   ConfigPlugin,
   withDangerousMod,
-  withXcodeProject,
-  withInfoPlist,
-  withMainApplication,
   IOSConfig,
 } from "@expo/config-plugins";
-// @ts-ignore
-import pbxFile from "xcode/lib/pbxFile";
 
 export interface ImagesetAsset {
   type: "imageset";
@@ -22,6 +17,11 @@ export interface Props {
   assets: Asset[];
 }
 
+/**
+ * Checks if there is a file at the given path.
+ * @param path the path to check
+ * @returns whether the file exists
+ */
 async function fileExists(path: string) {
   try {
     await fs.access(path, fs.constants.F_OK);
@@ -45,6 +45,7 @@ const withNativeAssets: ConfigPlugin<Props> = (config, props) => {
       );
 
       for await (let asset of props.assets) {
+        // TODO: support other asset types
         if (asset.type === "imageset") {
           const dirname = path.dirname(asset.path);
           const extname = path.extname(asset.path);
@@ -61,19 +62,12 @@ const withNativeAssets: ConfigPlugin<Props> = (config, props) => {
           // prettier-ignore
           const path2x = path.resolve(projectRoot, dirname, `${filename}@2x${extname}`);
           const path2xExists = await fileExists(path2x);
-          if (!path2xExists) {
-            console.error(`File ${path2x} does not exist`);
-            continue;
-          }
 
           // prettier-ignore
           const path3x = path.resolve(projectRoot, dirname, `${filename}@3x${extname}`);
           const path3xExists = await fileExists(path3x);
-          if (!path3xExists) {
-            console.error(`File ${path3x} does not exist`);
-            continue;
-          }
 
+          // Create the group for the asset
           const outDir = path.join(
             config.modRequest.projectName!,
             group.name,
@@ -81,7 +75,12 @@ const withNativeAssets: ConfigPlugin<Props> = (config, props) => {
           );
           IOSConfig.XcodeUtils.ensureGroupRecursively(project, outDir);
 
-          for await (let filePath of [path1x, path2x, path3x]) {
+          // Copy the files into the group
+          const files = [path1x];
+          if (path2xExists && path3xExists) {
+            files.push(path2x, path3x);
+          }
+          for await (let filePath of files) {
             const fileName = path.basename(filePath);
             const outPath = path.join(
               config.modRequest.platformProjectRoot,
@@ -91,6 +90,7 @@ const withNativeAssets: ConfigPlugin<Props> = (config, props) => {
             await fs.cp(filePath, outPath);
           }
 
+          // Write the Contents.json file into the group
           const contentsJson = {
             images: [
               {
@@ -100,12 +100,12 @@ const withNativeAssets: ConfigPlugin<Props> = (config, props) => {
               },
               {
                 idiom: "universal",
-                filename: path.basename(path2x),
+                ...(path2xExists ? { filename: path.basename(path2x) } : {}),
                 scale: "2x",
               },
               {
                 idiom: "universal",
-                filename: path.basename(path3x),
+                ...(path3xExists ? { filename: path.basename(path3x) } : {}),
                 scale: "3x",
               },
             ],
@@ -114,7 +114,6 @@ const withNativeAssets: ConfigPlugin<Props> = (config, props) => {
               version: 1,
             },
           };
-
           // prettier-ignore
           const contentsJsonPath = path.join(config.modRequest.platformProjectRoot, outDir, "Contents.json");
           await fs.writeFile(
