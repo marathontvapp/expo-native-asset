@@ -1,5 +1,13 @@
 # expo-native-asset
 
+> Bundle images to the native iOS `Images.xcassets` asset catalog
+
+## Motivation
+
+TK TK smth about react navigation
+
+## Installation
+
 TK
 
 ## Contributing
@@ -26,24 +34,16 @@ To set up the repository locally on your machine, follow these steps:
 
 To test that the project works, set up an example project app using [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) and follow these steps:
 
-1. In this repo, link the project:
+1. In this repo, run the build server:
 
    ```bash
-   yarn link
+   yarn build
    ```
 
-2. In your example project repo, link the dependency:
+2. In the `example` directory, rerun the prebuild process:
 
    ```bash
-   yarn link expo-native-fonts
+   EXPO_DEBUG=1 expo prebuild --clean
    ```
 
-3. In your example project repo, run the prebuild command:
-
-   ```bash
-   yarn expo prebuild --clean
-   ```
-
-## Credits
-
-Major props to [@jsamr](https://github.com/jsamr) for their documentation on supporting fonts natively: https://github.com/jsamr/react-native-font-demo
+3. Confirm the plugin works as expected!
