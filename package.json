@@ -1,0 +1,34 @@
+{
+  "name": "expo-native-asset",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "license": "MIT",
+  "sideEffects": false,
+  "repository": "https://github.com/marathontvapp/expo-native-asset.git",
+  "homepage": "https://github.com/marathontvapp/expo-native-asset#README.md",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "dependencies": {
+    "xcode": "^3.0.1"
+  },
+  "devDependencies": {
+    "expo": "^47.0.0",
+    "expo-module-scripts": "^3.0.9",
+    "typescript": "^5.1.6"
+  },
+  "peerDependencies": {
+    "expo": ">=47.0.0"
+  },
+  "peerDependenciesMeta": {
+    "expo": {
+      "optional": true
+    }
+  }
+}
