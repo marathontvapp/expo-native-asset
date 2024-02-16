@@ -46,6 +46,11 @@ This config plugin bundles your images natively in your asset catalog, so they a
                   {
                      "type": "imageset",
                      "path": "./assets/images/chevron-right.png"
+                  },
+                  {
+                     // You can also use the plugin to bundle app icons
+                     "type": "appiconset",
+                     "path": "./assets/expo-icon.png"
                   }
                ]
             }

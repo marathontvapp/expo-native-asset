@@ -38,6 +38,10 @@
             {
               "type": "imageset",
               "path": "./assets/images/chevron-right.png"
+            },
+            {
+              "type": "appiconset",
+              "path": "./assets/expo-icon.png"
             }
           ]
         }
